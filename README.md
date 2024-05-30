@@ -4,7 +4,7 @@ A Music App, created with Flutter 💻
 
 ## Getting Started
 
-CONSULTATION is an electronic consulting platform through which consultations can be provided/reserved in all different fields.
+Music App is a Music stock platform which songs are availabe for all.
 
 Star ⭐ the repo to support the project.
 

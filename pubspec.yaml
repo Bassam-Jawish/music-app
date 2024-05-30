@@ -1,0 +1,137 @@
+name: music_app
+description: "A new Flutter project."
+
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.4.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.6
+
+  #State Management
+  flutter_bloc: ^8.1.5
+
+  #powerful HTTP networking
+  dio: ^5.4.3+1
+
+  #Permission Handler
+  permission_handler: ^11.3.1
+
+  #Screenutil (Responsive)
+  flutter_screenutil: ^5.9.1
+
+  #Cached Network Image
+  cached_network_image: ^3.3.1
+
+  #Comparing Dart Objects
+  equatable: ^2.0.5
+
+  #Service Locator
+  get_it: ^7.7.0
+
+  #Page Transition
+  page_transition: ^2.1.0
+
+  #Flutter Spinkit
+  flutter_spinkit: ^5.2.1
+
+  #Go Router
+  go_router: ^14.1.2
+
+  #device_infomation
+  package_info_plus: ^8.0.0
+
+  #device_info_plus
+  device_info_plus: ^10.1.0
+
+  #internet_connection_checker
+  internet_connection_checker: ^1.0.0+1
+
+  #Shimmer
+  shimmer: ^3.0.0
+
+  #make request to api
+  retrofit: ^4.1.0
+
+  #Flutter Easy Debounce
+  easy_debounce: ^2.0.3
+
+  #Functional programming in Dart
+  dartz: ^0.10.1
+
+  #Flutter Svg
+  flutter_svg: ^2.0.10+1
+
+  #flutter_easyloading
+  flutter_easyloading: ^3.0.5
+
+  #fluttertoast
+  fluttertoast: ^8.2.5
+
+  #flutter_launcher_icons
+  flutter_launcher_icons: ^0.13.1
+
+  #audio_video_progress_bar
+  audio_video_progress_bar: ^2.0.3
+
+  #Conditional Builder
+  conditional_builder_null_safety: ^0.0.6
+
+  #dynamic_color
+  dynamic_color: ^1.7.0
+
+  #just_audio
+  just_audio: ^0.9.38
+
+  #audio_service
+  audio_service: ^0.18.13
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  retrofit_generator: ^8.1.0
+  build_runner: ^2.4.10
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/logo.jpg"
+  adaptive_icon_background: "#ffffff"
+  adaptive_icon_foreground: "assets/images/logo.jpg"
+  image_path_ios: "assets/images/logo.jpg"
+
+
+  flutter_lints: ^3.0.0
+
+flutter_gen:
+  output: lib/core/utils/gen/
+  line_length: 1000 # Optional (default: 80)
+
+  # Optional
+  integrations:
+    flutter_svg: true
+    flare_flutter: true
+    rive: true
+    lottie: true
+
+flutter:
+
+  uses-material-design: true
+
+  assets:
+    - assets/images/
+
+  fonts:
+    - family: PublicSans
+      fonts:
+        - asset: assets/fonts/PublicSans/PublicSans-Black.ttf
+        - asset: assets/fonts/PublicSans/PublicSans-Bold.ttf
+        - asset: assets/fonts/PublicSans/PublicSans-Medium.ttf
+        - asset: assets/fonts/PublicSans/PublicSans-Regular.ttf

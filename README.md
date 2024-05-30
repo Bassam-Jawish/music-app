@@ -10,7 +10,7 @@ Star ⭐ the repo to support the project.
 
 ## Features
 
-- The application show songs as a playlist with titles, artists and albumArts.
+- The application shows songs as a playlist with titles, artists and albumArts.
 
 - Listen to the song that you want and play and pause as you want.
 
@@ -18,7 +18,7 @@ Star ⭐ the repo to support the project.
 
 - Search about your favoirte song.
 
-- Close the song and enjoy listening to it on background.
+- Close the app and enjoy listening to it on background.
 
 - Control your song from the notifications.
 

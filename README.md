@@ -25,13 +25,23 @@ Star ⭐ the repo to support the project.
 ## Screenshots
 
 <p float="left">
-  <img src="screenshots/VideoCapture_20230313-004159.jpg" width="220" height = "450"/>
-  <img src="screenshots/VideoCapture_20230313-004058.jpg" width="220" height = "450"/> 
+  <img src="screenshots/Screenshot_20240530_104807.jpg" width="220" height = "450"/>
+  <img src="screenshots/Screenshot_20240530_104846.jpg" width="220" height = "450"/> 
 </p>
 
 <p float="left">
-  <img src="screenshots/VideoCapture_20230313-004253.jpg" width="220" height = "450"/>
-  <img src="screenshots/VideoCapture_20230313-004339.jpg" width="220" height = "450"/>
+  <img src="screenshots/Screenshot_20240530_104608.jpg" width="220" height = "450"/>
+  <img src="screenshots/Screenshot_20240530_105136.jpg" width="220" height = "450"/>
+</p>
+
+<p float="left">
+  <img src="screenshots/Screenshot_20240530_104941.jpg" width="220" height = "450"/>
+  <img src="screenshots/Screenshot_20240530_104608.jpg" width="220" height = "450"/>
+</p>
+
+<p float="left">
+  <img src="screenshots/Screenshot_20240530_104946.jpg" width="220" height = "450"/>
+  <img src="screenshots/Screenshot_20240530_105010_One UI Home.jpg" width="220" height = "450"/>
 </p>
 
 ## Tools

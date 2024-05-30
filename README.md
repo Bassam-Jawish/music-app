@@ -45,28 +45,28 @@ Get Function:
 `https://6655ffb83c1d3b60293be500.mockapi.io/api/v1/songs`
 
 ## Instructions
-To run a Flutter app, you typically follow these steps:
+- To run a Flutter app, you typically follow these steps:
 
-Set Up Flutter: Ensure that Flutter SDK is installed on your system. You can download it from the official Flutter website.
+- Set Up Flutter: Ensure that Flutter SDK is installed on your system. You can download it from the official Flutter website.
 
-Install Dependencies: Navigate to your Flutter project directory in the terminal and run flutter pub get to install all the dependencies listed in the pubspec.yaml file.
+- Install Dependencies: Navigate to your Flutter project directory in the terminal and run flutter pub get to install all the dependencies listed in the pubspec.yaml file.
 
-Connect Device or Emulator:
+- Connect Device or Emulator:
 
-If you're using an Android device, connect it to your computer via USB, and ensure that USB debugging is enabled.
-If you're using an iOS device, connect it to your Mac via USB.
-Alternatively, you can use emulators/simulators provided by Android Studio (for Android) or Xcode (for iOS).
-Run the App:
+- If you're using an Android device, connect it to your computer via USB, and ensure that USB debugging is enabled.
+- If you're using an iOS device, connect it to your Mac via USB.
+- Alternatively, you can use emulators/simulators provided by Android Studio (for Android) or Xcode (for iOS).
+- Run the App:
 
-If you're using VS Code or Android Studio, you can simply open the project in the IDE and run it by clicking on the "Run" button.
-If you prefer using the command line, navigate to your project directory and run flutter run.
-View the App: Once the build process is complete, the app will launch automatically on your connected device or emulator.
+- If you're using VS Code or Android Studio, you can simply open the project in the IDE and run it by clicking on the "Run" button.
+- If you prefer using the command line, navigate to your project directory and run flutter run.
+- View the App: Once the build process is complete, the app will launch automatically on your connected device or emulator.
 
-Interact with the App: You can interact with the app on your device or emulator just like any other app.
+- Interact with the App: You can interact with the app on your device or emulator just like any other app.
 
-Debugging: If you encounter any issues or errors, you can debug the app by using Flutter's built-in debugging tools. For example, you can use print statements for logging, set breakpoints, or use the Dart DevTools for more advanced debugging.
+- Debugging: If you encounter any issues or errors, you can debug the app by using Flutter's built-in debugging tools. For example, you can use print statements for logging, set breakpoints, or use the Dart DevTools for more advanced debugging.
 
-Hot Reload: During development, you can use Flutter's hot reload feature to quickly see changes you make to your code reflected in the running app. Simply save your changes in the code editor, and Flutter will automatically reload the app with the updated code.
+- Hot Reload: During development, you can use Flutter's hot reload feature to quickly see changes you make to your code reflected in the running app. Simply save your changes in the code editor, and Flutter will automatically reload the app with the updated code.
 
 ## Questions?🤔
 

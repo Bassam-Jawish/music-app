@@ -1,4 +1,4 @@
-# 🔥👏 Music App Player
+# 🔥👏 Music Player App
 
 A Music App, created with Flutter 💻
 

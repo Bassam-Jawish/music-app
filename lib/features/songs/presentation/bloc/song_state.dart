@@ -23,6 +23,8 @@ class SongState extends Equatable {
 
   final List<bool>? isPlaying;
 
+  final List<bool>? isPlayingChange;
+
   final Duration? duration;
 
   final int? selectedIndexSong;
@@ -34,7 +36,7 @@ class SongState extends Equatable {
       this.isLoading,
       this.songsStatus,
       this.currentSong,
-      this.isPlaying,
+      this.isPlaying,this.isPlayingChange,
       this.duration,
       this.selectedIndexSong});
 
@@ -46,6 +48,7 @@ class SongState extends Equatable {
     SongsStatus? songsStatus,
     SongEntity? currentSong,
     List<bool>? isPlaying,
+    List<bool>? isPlayingChange,
     Duration? duration,
     int? selectedIndexSong,
   }) =>
@@ -57,6 +60,7 @@ class SongState extends Equatable {
         songsStatus: songsStatus ?? this.songsStatus,
         currentSong: currentSong ?? this.currentSong,
         isPlaying: isPlaying ?? this.isPlaying,
+        isPlayingChange: isPlayingChange ?? this.isPlayingChange,
         duration: duration ?? this.duration,
         selectedIndexSong: selectedIndexSong ?? this.selectedIndexSong,
       );
@@ -70,6 +74,7 @@ class SongState extends Equatable {
         songsStatus,
         currentSong,
         isPlaying,
+        isPlayingChange,
         duration,
         selectedIndexSong,
       ];

@@ -48,9 +48,6 @@ class SongHandler extends BaseAudioHandler with QueueHandler, SeekHandler {
 
     await audioPlayer.setAudioSource(ConcatenatingAudioSource(children: audioSource));
 
-    audioPlayer.processingStateStream.listen((state) {
-      if (state == ProcessingState.completed) skipToNext();
-    });
   }
 
   @override

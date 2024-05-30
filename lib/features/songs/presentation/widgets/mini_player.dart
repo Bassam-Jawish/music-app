@@ -7,14 +7,13 @@ import 'package:music_app/core/widgets/custom_image_view.dart';
 import 'package:music_app/features/songs/domain/entities/song.dart';
 import 'package:music_app/features/songs/presentation/widgets/play_pause_button.dart';
 import 'package:music_app/features/songs/presentation/widgets/song_progress.dart';
-import 'package:music_app/injection_container.dart';
 
 import '../../../../config/routes/app_router.dart';
 import '../bloc/song_bloc.dart';
 
-class PlayerDeck extends StatelessWidget {
+class MiniPlayer extends StatelessWidget {
   // Constructor for the PlayerDeck class
-  PlayerDeck({
+  MiniPlayer({
     super.key,
   });
 
@@ -137,13 +136,19 @@ class PlayerDeck extends StatelessWidget {
       children: [
         BlocBuilder<SongBloc, SongState>(
           builder: (context, state) {
-            return Center(
-              child: PlayPauseButton(
-                size: 30,
-                index: state.selectedIndexSong!,
-                currentSong: state.songsListEntity![state.selectedIndexSong!],
-              ),
-            );
+            if (state.selectedIndexSong != null &&
+                state.selectedIndexSong! < state.songsListEntity!.length) {
+              return Center(
+                child: PlayPauseButton(
+                  size: 30,
+                  index: state.selectedIndexSong!,
+                  currentSong: state.songsListEntity![state.selectedIndexSong!],
+                  type: 0,
+                ),
+              );
+            } else {
+              return SizedBox.shrink();
+            }
           },
         ),
       ],

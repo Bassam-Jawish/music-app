@@ -18,11 +18,14 @@ part 'song_state.dart';
 class SongBloc extends Bloc<SongEvent, SongState> {
   final GetSongsUseCase _getSongsUseCase;
   final NetworkInfo _networkInfo;
-  final SongHandler _songHandler;
+  final SongHandler songHandler;
 
-  SongBloc(this._getSongsUseCase, this._networkInfo, this._songHandler)
+  SongBloc(this._getSongsUseCase, this._networkInfo, this.songHandler)
       : super(const SongState().copyWith(
-            songsStatus: SongsStatus.initial, isLoading: true, isPlaying: [])) {
+            songsStatus: SongsStatus.initial,
+            isLoading: true,
+            isPlaying: [],
+            isPlayingChange: [])) {
     _initializeAudioService();
     on<GetSongs>(onGetSongs);
     on<SearchForSongs>(onSearchForSongs);
@@ -30,13 +33,17 @@ class SongBloc extends Bloc<SongEvent, SongState> {
     on<PauseSong>(onPauseSong);
     on<SkipToNextSong>(onSkipToNextSong);
     on<SkipToPreviousSong>(onSkipToPreviousSong);
+
+    songHandler.audioPlayer.processingStateStream.listen((state) {
+      if (state == ProcessingState.completed) onSkipToNextSong;
+    });
   }
 
   Future<void> _initializeAudioService() async {
     await AudioService.init(
-      builder: () => _songHandler,
+      builder: () => songHandler,
       config: const AudioServiceConfig(
-        androidNotificationChannelId: 'com.music.app',
+        androidNotificationChannelId: 'com.example.music_app',
         androidNotificationChannelName: 'Music Player',
         androidNotificationOngoing: true,
         androidShowNotificationBadge: true,
@@ -67,7 +74,7 @@ class SongBloc extends Bloc<SongEvent, SongState> {
             .cast<String>()
             .toList();
 
-        await _songHandler.initSongs(urls: audioUrls);
+        await songHandler.initSongs(urls: audioUrls);
 
         List<bool> booleanArray = List.filled(dataState.data!.length, false);
 
@@ -75,6 +82,7 @@ class SongBloc extends Bloc<SongEvent, SongState> {
           songsListEntity: dataState.data,
           songsListEntityFixed: dataState.data,
           isPlaying: booleanArray,
+          isPlayingChange: booleanArray,
           songsStatus: SongsStatus.success,
           isLoading: false,
         ));
@@ -93,29 +101,46 @@ class SongBloc extends Bloc<SongEvent, SongState> {
   }
 
   void onSearchForSongs(SearchForSongs event, Emitter<SongState> emit) async {
-    List<SongEntity> songs = state.songsListEntityFixed!;
-
-    songs = songs
+    List<SongEntity> originalSongs = state.songsListEntityFixed!;
+    List<SongEntity> filteredSongs = originalSongs
         .where((element) =>
             element.title!.toLowerCase().contains(event.query.toLowerCase()))
         .toList();
 
+    List<bool> isPlayingChange = List.filled(filteredSongs.length, false);
+
+    if (state.selectedIndexSong != null) {
+      int originalSelectedIndex = state.selectedIndexSong!;
+      if (originalSelectedIndex < originalSongs.length) {
+        SongEntity currentlyPlayingSong = originalSongs[originalSelectedIndex];
+
+        int newIndex = filteredSongs
+            .indexWhere((song) => song.id == currentlyPlayingSong.id);
+        if (newIndex != -1) {
+          isPlayingChange[newIndex] = true;
+        }
+      }
+    }
+
+    /*List<String> audioUrls = filteredSongs
+        .map((song) => song.streamingUrl)
+        .where((url) => url != null)
+        .cast<String>()
+        .toList();
+
+    await songHandler.initSongs(urls: audioUrls);*/
+
     emit(state.copyWith(
-        songsListEntity: songs, songsStatus: SongsStatus.search));
+      songsListEntity: filteredSongs,
+      isPlayingChange: isPlayingChange,
+      songsStatus: SongsStatus.search,
+    ));
   }
 
   void onPlaySong(PlaySong event, Emitter<SongState> emit) async {
     SongEntity song = event.song;
-    List<bool> isPlaying = state.isPlaying!;
-
-    print("Testing Before anything");
-    print("newIndex=${event.index}");
-    print("isPlayingArray=${isPlaying}");
-    if (state.selectedIndexSong != null) {
-      print("selectedIndexSong=${state.selectedIndexSong}");
-      print("isPlayingOld=${isPlaying[state.selectedIndexSong!]}");
-    }
-    print("isPlayingNew=${isPlaying[event.index]}");
+    List<bool> isPlaying = [];
+    isPlaying.addAll(state.isPlaying!);
 
     try {
       bool initSong = false;
@@ -123,37 +148,12 @@ class SongBloc extends Bloc<SongEvent, SongState> {
       if (state.selectedIndexSong != event.index) {
         if (state.selectedIndexSong != null) {
           isPlaying[state.selectedIndexSong!] = false;
-
-          print("Testing When another song is clicked");
-          print("selectedIndexSong=${state.selectedIndexSong}");
-          print("newIndex=${event.index}");
-          print("isPlayingArray=${isPlaying}");
-          print("isPlayingOld=${isPlaying[state.selectedIndexSong!]}");
-          print("isPlayingNew=${isPlaying[event.index]}");
         }
-
-        print("Testing When It's null, selectedIndexSong != event.index");
-        print("newIndex=${event.index}");
-        print("isPlayingArray=${isPlaying}");
-        if (state.selectedIndexSong != null) {
-          print("selectedIndexSong=${state.selectedIndexSong}");
-          print("isPlayingOld=${isPlaying[state.selectedIndexSong!]}");
-        }
-        print("isPlayingNew=${isPlaying[event.index]}");
 
         initSong = true;
       }
 
       isPlaying[event.index] = true;
-
-      print("Testing after change isPlayingValue");
-      print("newIndex=${event.index}");
-      print("isPlayingArray=${isPlaying}");
-      if (state.selectedIndexSong != null) {
-        print("selectedIndexSong=${state.selectedIndexSong}");
-        print("isPlayingOld=${isPlaying[state.selectedIndexSong!]}");
-      }
-      print("isPlayingNew=${isPlaying[event.index]}");
 
       emit(state.copyWith(
         selectedIndexSong: event.index,
@@ -162,12 +162,12 @@ class SongBloc extends Bloc<SongEvent, SongState> {
       ));
 
       if (initSong) {
-        await _songHandler.skipToQueueItem(event.index);
+        await songHandler.skipToQueueItem(event.index);
       } else {
-        await _songHandler.play();
+        await songHandler.play();
       }
 
-      final duration = await _songHandler.getCurrentSongDuration();
+      final duration = await songHandler.getCurrentSongDuration();
 
       emit(state.copyWith(songsStatus: SongsStatus.play, duration: duration));
     } catch (e) {
@@ -180,17 +180,15 @@ class SongBloc extends Bloc<SongEvent, SongState> {
 
   void onPauseSong(PauseSong event, Emitter<SongState> emit) async {
     try {
-      List<bool> isPlaying = state.isPlaying!;
+      List<bool> isPlaying = [];
+      isPlaying.addAll(state.isPlaying!);
       isPlaying[state.selectedIndexSong!] = false;
-      await _songHandler.pause();
-      print("Testing when pause");
-      print("selectedIndexSong=${state.selectedIndexSong}");
-      print("isPlayingArray=${isPlaying}");
-      print("isPlayingChanged=${isPlaying[state.selectedIndexSong!]}");
+      await songHandler.pause();
 
       emit(state.copyWith(
-          isPlaying: isPlaying,
-          songsStatus: SongsStatus.pause,));
+        isPlaying: isPlaying,
+        songsStatus: SongsStatus.pause,
+      ));
     } catch (e) {
       emit(state.copyWith(
         songsStatus: SongsStatus.error,
@@ -213,12 +211,12 @@ class SongBloc extends Bloc<SongEvent, SongState> {
           isPlaying: isPlaying,
         ));
 
-        await _songHandler.skipToNext();
+        await songHandler.skipToNext();
 
-        final duration = await _songHandler.getCurrentSongDuration();
+        final duration = await songHandler.getCurrentSongDuration();
 
-        emit(state.copyWith(songsStatus: SongsStatus.skipToNext, duration: duration));
-
+        emit(state.copyWith(
+            songsStatus: SongsStatus.skipToNext, duration: duration));
       }
     } catch (e) {
       emit(state.copyWith(
@@ -243,11 +241,12 @@ class SongBloc extends Bloc<SongEvent, SongState> {
           isPlaying: isPlaying,
         ));
 
-        await _songHandler.skipToPrevious();
+        await songHandler.skipToPrevious();
 
-        final duration = await _songHandler.getCurrentSongDuration();
+        final duration = await songHandler.getCurrentSongDuration();
 
-        emit(state.copyWith(songsStatus: SongsStatus.skipToNext, duration: duration));
+        emit(state.copyWith(
+            songsStatus: SongsStatus.skipToNext, duration: duration));
       }
     } catch (e) {
       emit(state.copyWith(

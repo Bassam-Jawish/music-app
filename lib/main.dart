@@ -1,4 +1,3 @@
-import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -8,7 +7,6 @@ import 'package:music_app/features/songs/presentation/bloc/song_bloc.dart';
 import 'config/routes/app_router.dart';
 import 'config/theme/app_themes.dart';
 import 'core/app_export.dart';
-import 'core/utils/request_song_permission.dart';
 import 'core/utils/song_handler.dart';
 import 'injection_container.dart';
 
@@ -27,18 +25,6 @@ void main() async {
   );
   await initializeDependencies();
   configLoading();
-
-  songHandler = await AudioService.init(
-    builder: () => SongHandler(),
-    config: const AudioServiceConfig(
-      androidNotificationChannelId: 'com.music.app',
-      androidNotificationChannelName: 'Music Player',
-      androidNotificationOngoing: true,
-      androidShowNotificationBadge: true,
-    ),
-  );
-
-  // await requestSongPermission();
 
   runApp(const MyApp());
 }
